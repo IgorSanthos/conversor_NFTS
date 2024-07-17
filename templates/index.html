@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <title>Conversor-NFTS Online</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="menu">
+                <li><a href="https://igorsanthoss.wixsite.com/wedo">Home</a></li>
+                <li><a href="/">Soluções</a></li>
+                <li><a href="/">Conversor Gissonline</a></li>
+                <li><a href="/">Conversor XML</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="content">
+        <img src="static/img/capa.jpg" alt="capa">
+        <main>
+            <h1>Converter NFTS para G5</h1>
+            <p>Converter as planilhas de NFTS em CSV da prefeitura de São Paulo prontas para importar no Contmatic</p>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+                <label class="selecionar" for="file">Selecionar arquivo CSV</label>
+                <input type="file" id="file" name="file" style="display: none;">
+                <button type="submit">Gerar arquivo</button>
+            </form>
+
+            <div id="message" class="message" style="display: none;"></div>
+        </main>
+    </div>
+
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('file');
+    
+        fileInput.addEventListener('change', function () {
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.style.display = 'inline-block';
+        });
+    
+        uploadForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            
+            const result = await response.json();
+            const messageDiv = document.getElementById('message');
+            
+            if (result.status === 'error') {
+                messageDiv.textContent = result.message;
+                messageDiv.className = 'message error';
+            } else {
+                messageDiv.innerHTML = `Arquivo processado com sucesso! <a href="${result.download_url}" download>Baixar arquivo</a>`;
+                messageDiv.className = 'message success';
+            }
+            
+            messageDiv.style.display = 'block';
+        });
+
+        window.addEventListener('load', () => {
+            document.body.classList.add('page-loaded');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+*   {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;  
+}
+
+:root   {
+    font-size: 62.5%;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+
+header {
+    margin-bottom: 5rem;
+}
+nav {
+    height: 5rem;
+    padding: 2rem;
+}
+nav ul li a {
+    text-decoration: none;
+    text-align: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 0 1rem;
+    font-size: 1.6rem;
+    color: #000000;
+    font-weight: 400;
+}
+nav a:hover{
+    color: #6CBE45;
+    transition: color 0.5s ease;
+}
+.menu, li{
+    display: inline;
+    font-size: 1.6rem;
+}
+nav ul li {
+    margin: 0 1rem;
+    
+}
+
+.content {
+    display: grid;
+    grid-template-areas:
+    "hero form";
+    gap: 8.5rem;
+}
+
+
+img {
+    opacity: 0;
+    transition: opacity 2s ease;
+    padding: 2rem;
+    width: 50rem;
+    height: auto;
+    grid-area: hero;
+}
+
+.page-loaded img {
+    opacity: 1;
+}
+
+main {
+    border-width: .1rem;
+    border-style:solid;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 50rem;
+    height: 40rem;
+    grid-area: form;
+}
+
+
+h1 {
+    font-size: 3.5rem;
+}
+
+p {
+    margin-top: 2rem;
+    font-size: 1.3rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+label.selecionar {
+    background-color:#FFBE22;
+    font-size: 2rem;
+    color: rgb(0, 0, 0);
+    margin-top: 5rem;
+    padding: 1.7rem;
+    border-radius: 1rem;
+    border-style: none;
+    cursor: pointer;
+}
+
+label.selecionar:hover{
+    background-color: #B28619;
+}
+
+
+button {
+    font-size: 3rem;
+    color: #FD393B;
+    background-color: rgb(255, 255, 255);
+    margin-top: 2rem;
+    font-weight: 700;
+    border-style: none; 
+    cursor: pointer;
+}
+
+button:hover{
+    color:  #FFD7EF;
+    background-color: rgb(255, 255, 255);
+}
+
+
+
+.message {
+    font-size: 1.6rem;
+    margin: 2.0rem 0;
+    padding: 1.0rem;
+    border: .1rem solid transparent;
+    border-radius: .5rem;
+}
+.message.error {
+    color: #FD393B;
+    border-color: #FD393B;
+}
+.message.success {
+    color: green;
+    border-color: green;
+}
