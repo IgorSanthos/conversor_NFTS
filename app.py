@@ -44,7 +44,15 @@ def upload_file():
             df = pd.read_csv(file_path, encoding='latin1', sep=';')
             df = df.astype(str)
             df = df.replace('nan', '')
-            df['Número do Documento'] = df['Número do Documento'].astype(str).str.replace('.0', '')
+            # alterando 1
+            colunas_nao_alteradas = ['Inscrição Municipal do Tomador', 'CPF/CNPJ do Tomador',
+                                     'Email do Tomador', 'Valor dos Serviços','CPF/CNPJ do Prestador',
+                                     'Inscrição Municipal do Prestador','Complemento do Endereço do Prestador']
+            colunas_para_alterar = [col for col in df.columns if col not in colunas_nao_alteradas]
+            for coluna in colunas_para_alterar:
+                df[coluna] = df[coluna].astype(str).str.replace('.0', '')
+
+
             df['Data Hora Emissão NFTS'], df['Data da Prestação de Serviços'] = zip(*df.apply(lambda row: replacement_date(row['Data Hora Emissão NFTS'], row['Data da Prestação de Serviços']), axis=1))
             
             new_numeracoes = []
@@ -55,17 +63,17 @@ def upload_file():
                 else:
                     count_dict[num] = 1
                 if count_dict[num] > 1:
-                    new_value = f"{num}-{count_dict[num] - 1}"
+                    new_value = f"{num}{count_dict[num]:07d}"
                 else:
                     new_value = str(num)
                 new_numeracoes.append(new_value)
             df['Número do Documento'] = new_numeracoes
             df.loc[:, 'Nº NFTS'] = df.loc[:, 'Número do Documento']
 
-            processed_file_path = os.path.join(temp_dir, f"alterado_{filename}")  # Salvar o arquivo processado no diretório temporário
-            df.to_csv(processed_file_path, index=False, sep=';', encoding='latin1')
+            processed_file_path = os.path.join(temp_dir, f"alterado_{filename}.txt")  # Salvar o arquivo processado no diretório temporário
+            df.to_csv(processed_file_path, index=False, sep='\t', encoding='latin1')
             
-            download_url = url_for('download_file', filename=f"alterado_{filename}")  # Usar o mesmo nome para o arquivo processado
+            download_url = url_for('download_file', filename=f"alterado_{filename}.txt")  # Usar o mesmo nome para o arquivo processado
             return jsonify({'status': 'success', 'message': 'Arquivo processado com sucesso!', 'download_url': download_url})
         
         except Exception as e:
