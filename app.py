@@ -32,10 +32,11 @@ def upload_file():
     file = request.files['file']
     if file.filename == '':
         return jsonify({'status': 'error', 'message': 'Nenhum arquivo selecionado'}), 400
-
+    
+    # Salvar no diretório temporário
     if file:
         filename = secure_filename(file.filename)
-        file_path = os.path.join(temp_dir, filename)  # Salvar no diretório temporário
+        file_path = os.path.join(temp_dir, filename) 
         file.save(file_path)
         
         # Processar o arquivo
